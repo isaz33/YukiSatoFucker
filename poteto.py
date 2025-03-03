@@ -16,4 +16,5 @@ async def timeout(ctx, member: discord.Member, minutes: int):
     except discord.HTTPException as e:
         await ctx.send(f"An error occurred: {str(e)}")
 
-bot.run('YOUR_BOT_TOKEN')
+TOKEN = os.getenv("DISCORD_TOKEN")
+bot.run(TOKEN)
