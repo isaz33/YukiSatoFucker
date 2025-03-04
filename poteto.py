@@ -28,8 +28,9 @@ async def on_message(message):
         return
 
     member:discord.Member = 541887811742334987
-    await member.timeout_for(1)
-
+    await member.timeout(10)
+    if bot.user.mentioned_in(message):
+        await message.channel.send(f"{message.author.mention} こんにちは！Botにメンションされました！")
     
     if client.user in message.mentions:
         await message.channel.send('test2')
