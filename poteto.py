@@ -11,7 +11,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def timeout(ctx, member: discord.Member, minutes: int):
     try:
         print("timeout")
-        await member.timeout_for(minutes * 60)  # タイムアウト時間は秒単位
+        await member.timeout_for(minutes * 10)  # タイムアウト時間は秒単位
         await ctx.send(f"{member} has been timed out for {minutes} minutes.")
     except discord.Forbidden:
         await ctx.send("I don't have permission to timeout this user.")
