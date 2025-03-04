@@ -35,7 +35,7 @@ async def on_message(message):
             # タイムアウト処理 (例: 10分)
             # timeout_duration = discord.utils.utcnow() + discord.timedelta(minutes=0.1)
             # await target_user.edit(timeout=timeout_duration)
-            await member.timeout(timedelta(minutes=1), reason="ホモのためタイムアウト")
+            await target_user.timeout(timedelta(minutes=1), reason="ホモのためタイムアウト")
             await message.channel.send(f"{member.mention} さんがタイムアウトされました。")
             # duration = datetime.timedelta(seconds=10, minutes=0, hours= 0, days=0)
             # await target_user.timeout(duration, reason="gay")
