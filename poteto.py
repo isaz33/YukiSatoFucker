@@ -27,7 +27,9 @@ async def on_message(message):
     if message.author.bot:
         return
     # 「/neko」と発言したら「にゃーん」が返る処理
+    await message.channel.send('test')
     if client.user in message.mentions:
+        
         time = message.content
         member:discord.Member = 541887811742334987
         
@@ -35,7 +37,8 @@ async def on_message(message):
             member.timeout_for(time)
         else:
             member.timeout_for(1)
-    await message.channel.send('タイムアウトを実行します。')
+        await message.channel.send('タイムアウトを実行します。')
+    
         
         
 @app.route('/timeout', methods=['POST'])
