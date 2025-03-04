@@ -2,10 +2,13 @@ import discord
 from discord.ext import commands
 import os
 from keep_alive import keep_alive
+from flask import Flask, request
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+
+app = Flask(__name__)
 
 keep_alive()
 print("in progress")
@@ -27,9 +30,9 @@ async def on_message(message):
     await message.channel.send('にゃーん')
         
         
-@bot.command()
-async def timeout(ctx, member: discord.Member, minutes: int):
-    await message.channel.send('タイムアウトを実行します。')
+@app.route('/timeout', methods=['POST'])
+def timeout(ctx, member: discord.Member, minutes: int):
+    message.channel.send('タイムアウトを実行します。')
     # try:
     #     print("timeout")
     #     await member.timeout_for(minutes * 10)  # タイムアウト時間は秒単位
