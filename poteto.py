@@ -27,15 +27,17 @@ async def on_message(message):
     if message.author.bot:
         return
     # 「/neko」と発言したら「にゃーん」が返る処理
-    await message.channel.send('test')
+    message.channel.send('test')
     if client.user in message.mentions:
-        
+        message.channel.send('test2')
         time = message.content
         member:discord.Member = 541887811742334987
         
         if time.isdigit():
+            message.channel.send('test3')
             member.timeout_for(time)
         else:
+            message.channel.send('test4')
             member.timeout_for(1)
         await message.channel.send('タイムアウトを実行します。')
     
