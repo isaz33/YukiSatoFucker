@@ -6,7 +6,7 @@ from keep_alive import keep_alive
 intents = discord.Intents.default()
 intents.members = True
 
-
+keep_alive()
 
 
 bot = commands.Bot(command_prefix='!', intents=intents)
