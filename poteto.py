@@ -26,8 +26,6 @@ async def on_message(message):
     # メッセージ送信者がBotだった場合は無視する
     if message.author.bot:
         return
-    # 「/neko」と発言したら「にゃーん」が返る処理
-    await message.channel.send('test')
     if client.user in message.mentions:
         await message.channel.send('test2')
         time = message.content
