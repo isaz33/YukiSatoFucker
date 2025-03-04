@@ -22,13 +22,13 @@ async def greet():
     await channel.send('おはよう！')
 
 # bot起動時に実行されるイベントハンドラを定義
-@client.event
+@bot.event
 async def on_ready():
     await greet() # 挨拶する非同期関数を実行
 
 
 # メッセージ受信時に動作する処理
-@client.event
+@bot.event
 async def on_message(message):
     # メッセージ送信者がBotだった場合は無視する
     if message.author.bot:
