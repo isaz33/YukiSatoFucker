@@ -7,7 +7,7 @@ intents = discord.Intents.default()
 intents.members = True
 
 keep_alive()
-
+print("in progress")
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
