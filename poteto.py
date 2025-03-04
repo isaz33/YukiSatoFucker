@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+from keep_alive import keep_alive
 
 intents = discord.Intents.default()
 intents.members = True
@@ -15,6 +16,10 @@ client = discord.Client(intents = intents)
 async def on_ready():
     # 起動したらターミナルにログイン通知が表示される
     print('ログインしました')
+keep_alive()
+
+
+
 # メッセージ受信時に動作する処理
 @client.event
 async def on_message(message):
