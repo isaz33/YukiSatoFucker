@@ -12,12 +12,6 @@ intents.members = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 client = discord.Client(intents = intents)
-@client.event
-async def on_ready():
-    # 起動したらターミナルにログイン通知が表示される
-    print('ログインしました')
-keep_alive()
-
 
 CHANNEL_ID = 727020336293609522
 
