@@ -27,7 +27,7 @@ async def on_message(message):
     if message.author.bot:
         return
     # 「/neko」と発言したら「にゃーん」が返る処理
-    message.channel.send('test')
+    await message.channel.send('test')
     if client.user in message.mentions:
         await message.channel.send('test2')
         time = message.content
@@ -44,22 +44,22 @@ async def on_message(message):
     #     await message.channel.send(f"{message.author.mention} こんにちは！Botにメンションされました！")
 
     # await bot.process_commands(message)
-    await message.channel.send('タイムアウトを実行します。')
+        await message.channel.send('タイムアウトを実行します。')
     
         
         
-@app.route('/timeout', methods=['POST'])
-# def timeout(ctx, member: discord.Member, minutes: int):
-def timeout(data):
-    message.channel.send('タイムアウトを実行します。')
-    # try:
-    #     print("timeout")
-    #     await member.timeout_for(minutes * 10)  # タイムアウト時間は秒単位
-    #     await ctx.send(f"{member} has been timed out for {minutes} minutes.")
-    # except discord.Forbidden:
-    #     await ctx.send("I don't have permission to timeout this user.")
-    # except discord.HTTPException as e:
-    #     await ctx.send(f"An error occurred: {str(e)}")
+# @app.route('/timeout', methods=['POST'])
+# # def timeout(ctx, member: discord.Member, minutes: int):
+# def timeout(data):
+#     message.channel.send('タイムアウトを実行します。')
+#     # try:
+#     #     print("timeout")
+#     #     await member.timeout_for(minutes * 10)  # タイムアウト時間は秒単位
+#     #     await ctx.send(f"{member} has been timed out for {minutes} minutes.")
+#     # except discord.Forbidden:
+#     #     await ctx.send("I don't have permission to timeout this user.")
+#     # except discord.HTTPException as e:
+#     #     await ctx.send(f"An error occurred: {str(e)}")
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
