@@ -32,11 +32,15 @@ async def on_message(message):
         target_user = message.guild.get_member(541887811742334987)  # 指定されたユーザーを取得
         if target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
-            timeout_duration = 10  # 秒単位で指定 (10分 = 600秒)
+            timeout_duration = discord.utils.utcnow() + discord.timedelta(minutes=0.1)
+            await target_user.edit(timeout=timeout_duration)
             await target_user.timeout_for(timeout_duration)
             await message.channel.send(f"{target_user.mention} さんはタイムアウトされました。")
         else:
             await message.channel.send(f"指定されたユーザーが見つかりませんでした。")
+
+    # コマンド処理を続ける
+    await bot.process_commands(message)
                 
  # member:discord.Member = 541887811742334987
     # await member.timeout(10)
