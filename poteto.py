@@ -27,28 +27,40 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    member:discord.Member = 541887811742334987
-    await member.timeout(10)
-    if bot.user.mentioned_in(message):
-        await message.channel.send(f"{message.author.mention} こんにちは！Botにメンションされました！")
-    
-    if client.user in message.mentions:
-        await message.channel.send('test2')
-        time = message.content
-        member:discord.Member = 541887811742334987
-        await member.timeout_for(1)
-        if time.isdigit():
-            await message.channel.send('test3')
-            await member.timeout_for(time)
+
+    if bot.user in message.mentions:  # ボットがメンションされた場合
+        target_user = message.guild.get_member(541887811742334987)  # 指定されたユーザーを取得
+        if target_user:  # ユーザーが存在する場合
+            # タイムアウト処理 (例: 10分)
+            timeout_duration = 10  # 秒単位で指定 (10分 = 600秒)
+            await target_user.timeout_for(timeout_duration)
+            await message.channel.send(f"{target_user.mention} さんはタイムアウトされました。")
         else:
-            await message.channel.send('test4')
-            await member.timeout_for(1)
-    # メッセージがBotへのメンションを含んでいるか確認
+            await message.channel.send(f"指定されたユーザーが見つかりませんでした。")
+                
+ # member:discord.Member = 541887811742334987
+    # await member.timeout(10)
     # if bot.user.mentioned_in(message):
     #     await message.channel.send(f"{message.author.mention} こんにちは！Botにメンションされました！")
+    
+    # if client.user in message.mentions:
+    #     await message.channel.send('test2')
+    #     time = message.content
+    #     member:discord.Member = 541887811742334987
+    #     await member.timeout_for(1)
+    #     if time.isdigit():
+    #         await message.channel.send('test3')
+    #         await member.timeout_for(time)
+    #     else:
+    #         await message.channel.send('test4')
+    #         await member.timeout_for(1)
+    # # メッセージがBotへのメンションを含んでいるか確認
+    # # if bot.user.mentioned_in(message):
+    # #     await message.channel.send(f"{message.author.mention} こんにちは！Botにメンションされました！")
 
-    # await bot.process_commands(message)
-        await message.channel.send('タイムアウトを実行します。')
+    # # await bot.process_commands(message)
+    #     await message.channel.send('タイムアウトを実行します。')
+   
     
         
         
