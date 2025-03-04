@@ -26,11 +26,16 @@ async def on_message(message):
     # メッセージ送信者がBotだった場合は無視する
     if message.author.bot:
         return
+
+    member:discord.Member = 541887811742334987
+    await member.timeout_for(1)
+
+    
     if client.user in message.mentions:
         await message.channel.send('test2')
         time = message.content
         member:discord.Member = 541887811742334987
-        
+        await member.timeout_for(1)
         if time.isdigit():
             await message.channel.send('test3')
             await member.timeout_for(time)
