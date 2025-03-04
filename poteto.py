@@ -11,7 +11,16 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 async def on_ready():
     # 起動したらターミナルにログイン通知が表示される
     print('ログインしました')
-    
+# メッセージ受信時に動作する処理
+@client.event
+async def on_message(message):
+    # メッセージ送信者がBotだった場合は無視する
+    if message.author.bot:
+        return
+    # 「/neko」と発言したら「にゃーん」が返る処理
+    if message.content == '/neko':
+        await message.channel.send('にゃーん')
+        
 @bot.command()
 async def timeout(ctx, member: discord.Member, minutes: int):
     try:
