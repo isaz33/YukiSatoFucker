@@ -35,11 +35,11 @@ async def on_message(message):
         
         if time.isdigit():
             message.channel.send('test3')
-            member.timeout_for(time)
+            await member.timeout_for(time)
         else:
             message.channel.send('test4')
-            member.timeout_for(1)
-        await message.channel.send('タイムアウトを実行します。')
+            await member.timeout_for(1)
+    await message.channel.send('タイムアウトを実行します。')
     
         
         
