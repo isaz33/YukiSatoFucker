@@ -4,6 +4,7 @@ import os
 from keep_alive import keep_alive
 
 intents = discord.Intents.default()
+intents.message_content = True
 intents.members = True
 
 keep_alive()
