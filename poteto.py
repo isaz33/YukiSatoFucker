@@ -34,8 +34,8 @@ async def on_message(message):
     if message.author.bot:
         return
     # 「/neko」と発言したら「にゃーん」が返る処理
-    if message.content == '/neko':
-        await message.channel.send('にゃーん')
+    await message.channel.send('にゃーん')
+        
         
 @bot.command()
 async def timeout(ctx, member: discord.Member, minutes: int):
