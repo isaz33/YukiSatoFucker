@@ -7,6 +7,11 @@ intents.members = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
+@client.event
+async def on_ready():
+    # 起動したらターミナルにログイン通知が表示される
+    print('ログインしました')
+    
 @bot.command()
 async def timeout(ctx, member: discord.Member, minutes: int):
     try:
