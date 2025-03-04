@@ -18,7 +18,7 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 client = discord.Client(intents = intents)
 
-CHANNEL_ID = 727020336293609522
+CHANNEL_ID = 927549442465349632
 
 
 # メッセージ受信時に動作する処理
