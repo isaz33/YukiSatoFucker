@@ -31,7 +31,8 @@ async def on_message(message):
         
         
 @app.route('/timeout', methods=['POST'])
-def timeout(ctx, member: discord.Member, minutes: int):
+# def timeout(ctx, member: discord.Member, minutes: int):
+def timeout(data):
     message.channel.send('タイムアウトを実行します。')
     # try:
     #     print("timeout")
