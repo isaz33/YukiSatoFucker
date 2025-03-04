@@ -30,12 +30,12 @@ async def on_message(message):
 
 
     if bot.user in message.mentions:  # ボットがメンションされた場合
-        target_user = message.guild.get_member(1346527982994591744)  # 指定されたユーザーを取得
+        target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
         if target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
             # timeout_duration = discord.utils.utcnow() + discord.timedelta(minutes=0.1)
             # await target_user.edit(timeout=timeout_duration)
-            await target_user.timeout(timedelta(minutes=1), reason="ホモのためタイムアウト")
+            await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト")
             await message.channel.send("Potato was fucked!")
             # duration = datetime.timedelta(seconds=40, minutes=0, hours= 0, days=0)
             # await target_user.timeout(duration, reason="gay")
@@ -43,7 +43,7 @@ async def on_message(message):
             # await target_user.timeout_for(timeout_duration)
             # await message.channel.send(f"{target_user.mention} さんはタイムアウトされました。")
         else:
-            await message.channel.send(f"指定されたユーザーが見つかりませんでした。")
+            await print("user=none")
 
     # コマンド処理を続ける
     await bot.process_commands(message)
