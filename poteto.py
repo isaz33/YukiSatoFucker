@@ -39,6 +39,7 @@ async def on_message(message):
             content_without_mentions = message.content
             for mention in message.mentions:
                 content_without_mentions = content_without_mentions.replace(mention.mention, "")
+            await message.channel.send(f"Potato{type(content_without_mentions)} ")
             if isinstance(content_without_mentions, int):
                 min = content_without_mentions / 60
                 await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
