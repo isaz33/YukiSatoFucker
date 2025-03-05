@@ -36,13 +36,16 @@ async def on_message(message):
             # timeout_duration = discord.utils.utcnow() + discord.timedelta(minutes=0.1)
             # await target_user.edit(timeout=timeout_duration)
 
-            if isinstance(message.content, int):
-                min = message.content / 60
+            content_without_mentions = message.content
+            for mention in message.mentions:
+                content_without_mentions = content_without_mentions.replace(mention.mention, "")
+            if isinstance(content_without_mentions, int):
+                min = content_without_mentions / 60
                 await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト")
                 await message.channel.send(f"Potato was fucked!{min} ")
             else:
                 await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト")
-                await message.channel.send(f"Potato was fucked!{message.content}")
+                await message.channel.send(f"Potato was fucked!{content_without_mentions}")
         else:
             await print("user=none")
 
