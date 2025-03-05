@@ -42,10 +42,10 @@ async def on_message(message):
             if isinstance(content_without_mentions, int):
                 min = content_without_mentions / 60
                 await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト")
-                await message.channel.send(f"Potato was fucked!{min} ")
+                await message.channel.send(f"Potato was fucked! {min}min ")
             else:
                 await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト")
-                await message.channel.send(f"Potato was fucked!{content_without_mentions}")
+                await message.channel.send("Potato was fucked!")
         else:
             await print("user=none")
 
