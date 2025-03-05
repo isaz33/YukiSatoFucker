@@ -42,7 +42,7 @@ async def on_message(message):
                 await message.channel.send(f"Potato was fucked!{min} ")
             else:
                 await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト")
-                await message.channel.send("Potato was fucked!")
+                await message.channel.send(f"Potato was fucked!{message.content}")
         else:
             await print("user=none")
 
