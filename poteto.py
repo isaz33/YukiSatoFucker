@@ -41,7 +41,7 @@ async def on_message(message):
                     content_without_mentions = int(content_without_mentions.replace(mention.mention, ""))
 
                 if content_without_mentions == "解除":
-                    await target_user.timeout(None), reason="タイムアウト解除")
+                    await target_user.timeout(None)
                 elif isinstance(content_without_mentions, int):
                     min = content_without_mentions / 60
                     await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
