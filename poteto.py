@@ -79,8 +79,10 @@ async def on_message(message):
                 except Exception as e:
                     print(f"タイムアウトエラー: {e}")
 
-            else:
+            elif toxicity_score is None:
                 await message.channel.send("テスト4")
+            else:
+                await message.channel.send("テスト5")
         
         elif target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
