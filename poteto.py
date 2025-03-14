@@ -27,6 +27,8 @@ PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 TOXICITY_THRESHOLD = 0.1
 TARGET_USER_IDS = [449487835351744515,541887811742334987]  # 監視対象のユーザーIDリスト
 
+target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
+
 async def analyze_text(text,message):
     
     """Perspective API を使用してテキストの不適切度を分析"""
@@ -60,25 +62,16 @@ async def on_message(message):
         return
 
     if message.author.id in TARGET_USER_IDS:
-       
         toxicity_score = await analyze_text(message.content,message)
-    
         if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
-            try:
-                
-                # タイムアウト（mute）処理
-                min = 1  # 60秒間タイムアウト
-                await message.channel.send("テストa")
-                await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
-                await message.channel.send("テストb")
-                await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。危険度 = {toxicity_score}")
-                await message.channel.send("テストc")
-            except Exception as e:
-                await message.channel.send("テスト2")
-                print(f"タイムアウトエラー: {e}")
+            # タイムアウト（mute）処理
+            min = 1  # 60秒間タイムアウト
+            await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
+            await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。危険度 = {toxicity_score}")
+
 
     elif bot.user in message.mentions:  # ボットがメンションされた場合
-        target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
+        
     
         if target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
