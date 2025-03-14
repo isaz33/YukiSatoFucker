@@ -58,11 +58,7 @@ async def on_message(message):
     if message.author.bot:
         return
 
-
-    if bot.user in message.mentions:  # ボットがメンションされた場合
-        target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
-        
-        if message.author.id in TARGET_USER_IDS:
+    if message.author.id in TARGET_USER_IDS:
             toxicity_score = await analyze_text(message.content,message)
     
             if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
@@ -75,6 +71,11 @@ async def on_message(message):
                     await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。危険度 = {toxicity_score}")
                 except Exception as e:
                     print(f"タイムアウトエラー: {e}")
+
+    elif bot.user in message.mentions:  # ボットがメンションされた場合
+        target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
+        
+        
 
         
         elif target_user:  # ユーザーが存在する場合
