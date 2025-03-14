@@ -76,8 +76,6 @@ async def on_message(message):
                 except Exception as e:
                     print(f"タイムアウトエラー: {e}")
 
-            else:
-
         
         elif target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
