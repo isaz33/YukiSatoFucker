@@ -5,6 +5,8 @@ from keep_alive import keep_alive
 from flask import Flask, request
 from datetime import timedelta
 import requests
+import json
+import asyncio
 
 intents = discord.Intents.default()
 intents.message_content = True
