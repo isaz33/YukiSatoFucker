@@ -4,6 +4,7 @@ import os
 from keep_alive import keep_alive
 from flask import Flask, request
 from datetime import timedelta
+import requests
 
 intents = discord.Intents.default()
 intents.message_content = True
