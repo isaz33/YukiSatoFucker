@@ -67,7 +67,7 @@ async def on_message(message):
             # タイムアウト（mute）処理
             min = 1  # 60秒間タイムアウト
             await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
-            await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。危険度 = {toxicity_score}")
+            await message.channel.send(f"{target_user} の発言は不適切と判断したため、ファックします。{min}分間ミュートされます。危険度 = {toxicity_score}")
 
 
     elif bot.user in message.mentions:  # ボットがメンションされた場合
