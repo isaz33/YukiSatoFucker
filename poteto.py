@@ -24,8 +24,8 @@ client = discord.Client(intents = intents)
 CHANNEL_ID = 927549442465349632
 PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 # 許容できる不適切スコアの閾値
-TOXICITY_THRESHOLD = 0.7
-TARGET_USER_IDS = [541887811742334987]  # 監視対象のユーザーIDリスト
+TOXICITY_THRESHOLD = 0.1
+TARGET_USER_IDS = [449487835351744515]  # 監視対象のユーザーIDリスト
 
 async def analyze_text(text,message):
     
@@ -42,13 +42,11 @@ async def analyze_text(text,message):
     
     
     if response.status_code == 200:
-        await message.channel.send("通信成功")
         result = response.json()
         toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
         await message.channel.send(toxicity_score)
         return toxicity_score
     else:
-        await message.channel.send("通信失敗")
         print(f"Perspective API エラー: {response.status_code}, {response.text}")
         return None
 
@@ -65,27 +63,22 @@ async def on_message(message):
     if bot.user in message.mentions:  # ボットがメンションされた場合
         target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
         
-        target_user2 = message.guild.get_member(541887811742334987)
         if message.author.id in TARGET_USER_IDS:
-            await message.channel.send("テスト2")
             toxicity_score = await analyze_text(message.content,message)
     
             if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
-                await message.channel.send("テスト3")
                 try:
                     # タイムアウト（mute）処理
-                    min = 60  # 60秒間タイムアウト
+                    min = 1  # 60秒間タイムアウト
                     
                     await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
                     
-                    await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}秒間ミュートされます。")
+                    await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。")
                 except Exception as e:
                     print(f"タイムアウトエラー: {e}")
 
-            elif toxicity_score is None:
-                await message.channel.send("テスト4")
             else:
-                await message.channel.send("テスト5")
+
         
         elif target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
