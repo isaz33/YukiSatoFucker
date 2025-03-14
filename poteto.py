@@ -28,6 +28,8 @@ TOXICITY_THRESHOLD = 0.7
 TARGET_USER_IDS = [541887811742334987]  # 監視対象のユーザーIDリスト
 
 async def analyze_text(text):
+    await message.channel.send("テスト1")
+    
     """Perspective API を使用してテキストの不適切度を分析"""
     url = f"https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key={PERSPECTIVE_API_KEY}"
     data = {
