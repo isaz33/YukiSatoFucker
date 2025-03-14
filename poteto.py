@@ -42,10 +42,12 @@ async def analyze_text(text,message):
     
     
     if response.status_code == 200:
+        await message.channel.send("テスト3")
         result = response.json()
         toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
         return toxicity_score
     else:
+        await message.channel.send("テスト4")
         print(f"Perspective API エラー: {response.status_code}, {response.text}")
         return None
 
@@ -60,11 +62,12 @@ async def on_message(message):
         return
 
     if message.author.id in TARGET_USER_IDS:
-        await message.channel.send("テスト")
+       
         toxicity_score = await analyze_text(message.content,message)
     
         if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
             try:
+                await message.channel.send("テスト1")
                 # タイムアウト（mute）処理
                 min = 1  # 60秒間タイムアウト
                 
@@ -72,6 +75,7 @@ async def on_message(message):
                 
                 await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。危険度 = {toxicity_score}")
             except Exception as e:
+                await message.channel.send("テスト2")
                 print(f"タイムアウトエラー: {e}")
 
     elif bot.user in message.mentions:  # ボットがメンションされた場合
