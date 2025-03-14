@@ -25,7 +25,7 @@ CHANNEL_ID = 927549442465349632
 PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 # 許容できる不適切スコアの閾値
 TOXICITY_THRESHOLD = 0.1
-TARGET_USER_IDS = [449487835351744515]  # 監視対象のユーザーIDリスト
+TARGET_USER_IDS = [449487835351744515,541887811742334987]  # 監視対象のユーザーIDリスト
 
 async def analyze_text(text,message):
     
@@ -44,7 +44,6 @@ async def analyze_text(text,message):
     if response.status_code == 200:
         result = response.json()
         toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
-        await message.channel.send(toxicity_score)
         return toxicity_score
     else:
         print(f"Perspective API エラー: {response.status_code}, {response.text}")
@@ -73,7 +72,7 @@ async def on_message(message):
                     
                     await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
                     
-                    await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。")
+                    await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。危険度 = {toxicity_score}")
                 except Exception as e:
                     print(f"タイムアウトエラー: {e}")
 
