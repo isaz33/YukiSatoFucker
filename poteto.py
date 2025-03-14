@@ -39,6 +39,8 @@ async def analyze_text(text):
     
     response = requests.post(url, data=json.dumps(data), headers=headers)
     
+    await message.channel.send("テスト1")
+    
     if response.status_code == 200:
         result = response.json()
         toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
@@ -62,6 +64,7 @@ async def on_message(message):
         
         target_user2 = message.guild.get_member(541887811742334987)
         if message.author.id in TARGET_USER_IDS:
+            await message.channel.send("テスト2")
             toxicity_score = await analyze_text(message.content)
     
             if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
