@@ -27,7 +27,7 @@ PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 TOXICITY_THRESHOLD = 0.7
 TARGET_USER_IDS = [541887811742334987]  # 監視対象のユーザーIDリスト
 
-async def analyze_text(text):
+async def analyze_text(text,message):
     
     """Perspective API を使用してテキストの不適切度を分析"""
     url = f"https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key={PERSPECTIVE_API_KEY}"
@@ -42,10 +42,12 @@ async def analyze_text(text):
     
     
     if response.status_code == 200:
+        await message.channel.send("通信成功")
         result = response.json()
         toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
         return toxicity_score
     else:
+        await message.channel.send("通信失敗")
         print(f"Perspective API エラー: {response.status_code}, {response.text}")
         return None
 
@@ -65,7 +67,7 @@ async def on_message(message):
         target_user2 = message.guild.get_member(541887811742334987)
         if message.author.id in TARGET_USER_IDS:
             await message.channel.send("テスト2")
-            toxicity_score = await analyze_text(message.content)
+            toxicity_score = await analyze_text(message.content,message)
     
             if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
                 await message.channel.send("テスト3")
