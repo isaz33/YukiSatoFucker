@@ -58,7 +58,7 @@ async def on_message(message):
         target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
         
         target_user2 = message.guild.get_member(541887811742334987)
-        if message.author.id is 541887811742334987::
+        if message.author.id in TARGET_USER_IDS:
             toxicity_score = await analyze_text(message.content)
     
             if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
