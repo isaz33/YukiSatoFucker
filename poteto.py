@@ -74,11 +74,8 @@ async def on_message(message):
 
     elif bot.user in message.mentions:  # ボットがメンションされた場合
         target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
-        
-        
-
-        
-        elif target_user:  # ユーザーが存在する場合
+    
+        if target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
             # timeout_duration = discord.utils.utcnow() + discord.timedelta(minutes=0.1)
             # await target_user.edit(timeout=timeout_duration)
