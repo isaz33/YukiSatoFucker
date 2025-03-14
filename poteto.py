@@ -45,6 +45,7 @@ async def analyze_text(text,message):
         await message.channel.send("通信成功")
         result = response.json()
         toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
+        await message.channel.send(toxicity_score)
         return toxicity_score
     else:
         await message.channel.send("通信失敗")
