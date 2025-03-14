@@ -28,7 +28,6 @@ TOXICITY_THRESHOLD = 0.7
 TARGET_USER_IDS = [541887811742334987]  # 監視対象のユーザーIDリスト
 
 async def analyze_text(text):
-    await message.channel.send("テスト1")
     
     """Perspective API を使用してテキストの不適切度を分析"""
     url = f"https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key={PERSPECTIVE_API_KEY}"
@@ -41,7 +40,6 @@ async def analyze_text(text):
     
     response = requests.post(url, data=json.dumps(data), headers=headers)
     
-    await message.channel.send("テスト1")
     
     if response.status_code == 200:
         result = response.json()
@@ -70,6 +68,7 @@ async def on_message(message):
             toxicity_score = await analyze_text(message.content)
     
             if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
+                await message.channel.send("テスト3")
                 try:
                     # タイムアウト（mute）処理
                     min = 60  # 60秒間タイムアウト
@@ -79,6 +78,9 @@ async def on_message(message):
                     await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}秒間ミュートされます。")
                 except Exception as e:
                     print(f"タイムアウトエラー: {e}")
+
+            else:
+                await message.channel.send("テスト4")
         
         elif target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
