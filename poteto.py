@@ -54,6 +54,7 @@ async def analyze_text(text,message):
 # メッセージ受信時に動作する処理
 @bot.event
 async def on_message(message):
+    await message.channel.send("テスト1")
     # メッセージ送信者がBotだった場合は無視する
     if message.author.bot:
         return
