@@ -19,6 +19,31 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 client = discord.Client(intents = intents)
 
 CHANNEL_ID = 927549442465349632
+PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
+# 許容できる不適切スコアの閾値
+TOXICITY_THRESHOLD = 0.7
+TARGET_USER_IDS = [541887811742334987]  # 監視対象のユーザーIDリスト
+
+async def analyze_text(text):
+    """Perspective API を使用してテキストの不適切度を分析"""
+    url = f"https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key={PERSPECTIVE_API_KEY}"
+    data = {
+        "comment": {"text": text},
+        "languages": ["ja"],  # 日本語をチェックする場合は ["ja"] に変更
+        "requestedAttributes": {"TOXICITY": {}}
+    }
+    headers = {"Content-Type": "application/json"}
+    
+    response = requests.post(url, data=json.dumps(data), headers=headers)
+    
+    if response.status_code == 200:
+        result = response.json()
+        toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
+        return toxicity_score
+    else:
+        print(f"Perspective API エラー: {response.status_code}, {response.text}")
+        return None
+
 
 
 # メッセージ受信時に動作する処理
@@ -31,7 +56,23 @@ async def on_message(message):
 
     if bot.user in message.mentions:  # ボットがメンションされた場合
         target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
-        if target_user:  # ユーザーが存在する場合
+        
+        target_user2 = message.guild.get_member(541887811742334987)
+        if message.author.id not in TARGET_USER_IDS::
+            toxicity_score = await analyze_text(message.content)
+    
+            if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
+                try:
+                    # タイムアウト（mute）処理
+                    min = 60  # 60秒間タイムアウト
+                    
+                    await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
+                    
+                    await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}秒間ミュートされます。")
+                except Exception as e:
+                    print(f"タイムアウトエラー: {e}")
+        
+        elif target_user:  # ユーザーが存在する場合
             # タイムアウト処理 (例: 10分)
             # timeout_duration = discord.utils.utcnow() + discord.timedelta(minutes=0.1)
             # await target_user.edit(timeout=timeout_duration)
