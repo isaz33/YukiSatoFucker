@@ -64,11 +64,16 @@ async def on_message(message):
 
     
     if message.author.id in TARGET_USER_IDS:
+        await message.channel.send("section1")
         toxicity_score = await analyze_text(message.content,message)
+        await message.channel.send("section2")
         if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
+            await message.channel.send("section3")
             # タイムアウト（mute）処理
             min = 1  # 60秒間タイムアウト
+            await message.channel.send("section4")
             await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
+            await message.channel.send("section5")
             await message.channel.send(f"{target_user} さんの発言は不適切と判断されました。{min}分間ミュートされます。危険度 = {toxicity_score}")
 
 
