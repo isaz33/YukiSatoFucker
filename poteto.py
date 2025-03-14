@@ -27,8 +27,6 @@ PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 TOXICITY_THRESHOLD = 0.1
 TARGET_USER_IDS = [449487835351744515,541887811742334987]  # 監視対象のユーザーIDリスト
 
-target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
-
 async def analyze_text(text,message):
     
     """Perspective API を使用してテキストの不適切度を分析"""
