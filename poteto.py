@@ -13,23 +13,29 @@ intents.message_content = True
 intents.members = True
 
 app = Flask(__name__)
-
 keep_alive()
-print("in progress")
 
 bot = commands.Bot(command_prefix='!', intents=intents)
-
 client = discord.Client(intents = intents)
-
 CHANNEL_ID = 927549442465349632
+
+
 PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 # 許容できる不適切スコアの閾値
-TOXICITY_THRESHOLD = 0.1
+TOXICITY_THRESHOLD = 0.3
 TARGET_USER_IDS = [449487835351744515,541887811742334987]  # 監視対象のユーザーIDリスト
+
+
+
+
+
+
+
+
 
 async def analyze_text(text,message):
     
-    """Perspective API を使用してテキストの不適切度を分析"""
+    """Perspective API"""
     url = f"https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key={PERSPECTIVE_API_KEY}"
     data = {
         "comment": {"text": text},
