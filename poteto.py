@@ -24,7 +24,7 @@ PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 # 許容できる不適切スコアの閾値
 TOXICITY_THRESHOLD = 0.3
 # 監視対象のユーザーIDリスト
-TARGET_USER_IDS = [449487835351744515,541887811742334987]  
+TARGET_USER_IDS = [449487835351744515]  
 
 
 
@@ -69,8 +69,25 @@ async def on_message(message):
     
     target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得(ポテト)
 
+    mentioned_user = message.mentions[0]  # メンションされたユーザー(1人目)を取得
+    
+    #メンションされたユーザーがリスト入りしている場合
+    if mentioned_user in TARGET_USERS_IDS:
+        def check(m):
+            return m.author == mentioned_user and m.channel == message.channel
+
+        try:
+            # ユーザーからのメッセージを10秒以内に待機
+            await bot.wait_for('message', timeout=10, check=check)
+        except asyncio.TimeoutError:
+            # ユーザーが返答しなかった場合、タイムアウト
+            min = 1
+            await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(応答なし)")
+            await message.channel.send(f"{target_user} が応答の義務を果たさなかったため、ファックします。")
+
+    
     #　リスト入りしているユーザーによりボットがメンションされた場合
-    if message.author.id in TARGET_USER_IDS:
+    elif message.author.id in TARGET_USER_IDS:
 
         #危険度を測定
         toxicity_score = await analyze_text(message.content)
