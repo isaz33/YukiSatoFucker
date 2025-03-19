@@ -72,7 +72,7 @@ async def on_message(message):
     mentioned_user = message.mentions[0]  # メンションされたユーザー(1人目)を取得
     
     #メンションされたユーザーがリスト入りしている場合
-    if mentioned_user in TARGET_USERS_IDS:
+    if mentioned_user in TARGET_USER_IDS:
         def check(m):
             return m.author == mentioned_user and m.channel == message.channel
 
