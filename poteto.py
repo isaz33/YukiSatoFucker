@@ -19,11 +19,12 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 client = discord.Client(intents = intents)
 CHANNEL_ID = 927549442465349632
 
-
+# PERSPECTIVE_API
 PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 # 許容できる不適切スコアの閾値
 TOXICITY_THRESHOLD = 0.3
-TARGET_USER_IDS = [449487835351744515,541887811742334987]  # 監視対象のユーザーIDリスト
+# 監視対象のユーザーIDリスト
+TARGET_USER_IDS = [449487835351744515,541887811742334987]  
 
 
 
@@ -32,14 +33,14 @@ TARGET_USER_IDS = [449487835351744515,541887811742334987]  # 監視対象のユ�
 
 
 
-
-async def analyze_text(text,message):
+# 文字列の危険度判定
+async def analyze_text(text):
     
     """Perspective API"""
     url = f"https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key={PERSPECTIVE_API_KEY}"
     data = {
         "comment": {"text": text},
-        "languages": ["ja"],  # 日本語をチェックする場合は ["ja"] に変更
+        "languages": ["ja"],  
         "requestedAttributes": {"TOXICITY": {}}
     }
     headers = {"Content-Type": "application/json"}
@@ -64,88 +65,63 @@ async def on_message(message):
     # メッセージ送信者がBotだった場合は無視する
     if message.author.bot:
         return
-    target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得
 
     
+    target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得(ポテト)
+
+    #　リスト入りしているユーザーによりボットがメンションされた場合
     if message.author.id in TARGET_USER_IDS:
-        toxicity_score = await analyze_text(message.content,message)
+
+        #危険度を測定
+        toxicity_score = await analyze_text(message.content)
+        # 危険性が規定値以上に認められた場合
         if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
             # タイムアウト（mute）処理
-            min = 1  # 60秒間タイムアウト
-            await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
+            min = 1  # 1分タイムアウト
+            await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(危険度)")
             await message.channel.send(f"{target_user} の発言は不適切と判断したため、ファックします。{min}分間ミュートされます。危険度 = {toxicity_score}")
 
-
-    elif bot.user in message.mentions:  # ボットがメンションされた場合
-        
-    
-        if target_user:  # ユーザーが存在する場合
-            # タイムアウト処理 (例: 10分)
-            # timeout_duration = discord.utils.utcnow() + discord.timedelta(minutes=0.1)
-            # await target_user.edit(timeout=timeout_duration)
-            try:
-                content_without_mentions = message.content
-                for mention in message.mentions:
-                    content_without_mentions = int(content_without_mentions.replace(mention.mention, ""))
-
-                if content_without_mentions == "解除":
-                    await target_user.timeout(None)
-                elif isinstance(content_without_mentions, int):
-                    min = content_without_mentions / 60
-                    await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
-                    await message.channel.send(f"Potato was fucked! ({min}min) ")
-                else:
-                    await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト")
-                    await message.channel.send("Potato was fucked!")
-            except:
-                await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト(例外)")
-                await message.channel.send("Potato was fucked!")
-                
+    #　その他ユーザーによりボットがメンションされた場合
+    elif bot.user in message.mentions:
+        # ユーザーが存在する場合
+        if target_user:  
+            #ポテトファッカーを実行
+            await potato_fucker(message,target_user)
             
         else:
             await print("user=none")
 
-    # コマンド処理を続ける
+    # 動作後、コマンド処理を続ける
     await bot.process_commands(message)
+
+
+async def potato_fucker(message, target_user):
+    # タイムアウト処理
+        try:
+            content_without_mentions = message.content
+            for mention in message.mentions:
+                # メンション部分以外のテキストを取得
+                content_without_mentions = int(content_without_mentions.replace(mention.mention, ""))
+
+            if content_without_mentions == "解除":
+                await target_user.timeout(None)
+            # メンション以外のテキストがint型に変換できる場合
+            elif isinstance(content_without_mentions, int):
+                min = content_without_mentions / 60
                 
- # member:discord.Member = 541887811742334987
-    # await member.timeout(10)
-    # if bot.user.mentioned_in(message):
-    #     await message.channel.send(f"{message.author.mention} こんにちは！Botにメンションされました！")
-    
-    # if client.user in message.mentions:
-    #     await message.channel.send('test2')
-    #     time = message.content
-    #     member:discord.Member = 541887811742334987
-    #     await member.timeout_for(1)
-    #     if time.isdigit():
-    #         await message.channel.send('test3')
-    #         await member.timeout_for(time)
-    #     else:
-    #         await message.channel.send('test4')
-    #         await member.timeout_for(1)
-    # # メッセージがBotへのメンションを含んでいるか確認
-    # # if bot.user.mentioned_in(message):
-    # #     await message.channel.send(f"{message.author.mention} こんにちは！Botにメンションされました！")
+                # 指定時間タイムアウト
+                await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(時間指定)")
+                await message.channel.send(f"Potato was fucked! ({min}min) ")
+            else:
+                await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト(デフォルト)")
+                await message.channel.send("Potato was fucked!")
+        except:
+            #例外時、再度ポテトファックを試行
+            #ここで例外が発生した場合はキャッチしない
+            await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト(例外)")
+            await message.channel.send("Potato was fucked!")
 
-    # # await bot.process_commands(message)
-    #     await message.channel.send('タイムアウトを実行します。')
-   
-    
-        
-        
-# @app.route('/timeout', methods=['POST'])
-# # def timeout(ctx, member: discord.Member, minutes: int):
-# def timeout(data):
-#     message.channel.send('タイムアウトを実行します。')
-#     # try:
-#     #     print("timeout")
-#     #     await member.timeout_for(minutes * 10)  # タイムアウト時間は秒単位
-#     #     await ctx.send(f"{member} has been timed out for {minutes} minutes.")
-#     # except discord.Forbidden:
-#     #     await ctx.send("I don't have permission to timeout this user.")
-#     # except discord.HTTPException as e:
-#     #     await ctx.send(f"An error occurred: {str(e)}")
 
+#以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
