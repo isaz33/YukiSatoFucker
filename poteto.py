@@ -68,9 +68,10 @@ async def on_message(message):
 
     
     target_user = message.guild.get_member(542254710053404672)  # 指定されたユーザーを取得(ポテト)
-
-    mentioned_user = message.mentions[0]  # メンションされたユーザー(1人目)を取得
-    
+    try:
+        mentioned_user = message.mentions[0]  # メンションされたユーザー(1人目)を取得
+    except:
+        print("mentioned_user is none")
     #メンションされたユーザーがリスト入りしている場合
     if mentioned_user in TARGET_USER_IDS:
         await message.channel.send("test")
