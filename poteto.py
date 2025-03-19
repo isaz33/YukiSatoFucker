@@ -73,6 +73,7 @@ async def on_message(message):
     
     #メンションされたユーザーがリスト入りしている場合
     if mentioned_user in TARGET_USER_IDS:
+        await message.channel.send("test")
         def check(m):
             return m.author == mentioned_user and m.channel == message.channel
 
