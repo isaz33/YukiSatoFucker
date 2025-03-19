@@ -88,7 +88,7 @@ async def on_message(message):
 
     
     #　リスト入りしているユーザーによりボットがメンションされた場合
-    elif message.author.id in TARGET_USER_IDS:
+    if message.author.id in TARGET_USER_IDS:
 
         #危険度を測定
         toxicity_score = await analyze_text(message.content)
