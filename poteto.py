@@ -71,20 +71,20 @@ async def on_message(message):
     mentioned_user = message.mentions  # メンションされたユーザー(1人目)を取得
 
     #メンションされたユーザーがリスト入りしている場合
-    for user in mentioned_user:
-        if user.id in TARGET_USER_IDS:
-            await message.channel.send("test")
-            def check(m):
-                return m.author == mentioned_user and m.channel == message.channel
+    # for user in mentioned_user:
+    #     if user.id in TARGET_USER_IDS:
+    #         await message.channel.send("test")
+    #         def check(m):
+    #             return m.author == mentioned_user and m.channel == message.channel
         
-            try:
-                # ユーザーからのメッセージを10秒以内に待機
-                await bot.wait_for('message', timeout=10, check=check)
-            except asyncio.TimeoutError:
-                # ユーザーが返答しなかった場合、タイムアウト
-                min = 1
-                await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(応答なし)")
-                await message.channel.send(f"{target_user} が応答の義務を果たさなかったため、ファックします。")
+    #         try:
+    #             # ユーザーからのメッセージを10秒以内に待機
+    #             await bot.wait_for('message', timeout=10, check=check)
+    #         except asyncio.TimeoutError:
+    #             # ユーザーが返答しなかった場合、タイムアウト
+    #             min = 1
+    #             await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(応答なし)")
+    #             await message.channel.send(f"{target_user} が応答の義務を果たさなかったため、ファックします。")
 
     
     #　リスト入りしているユーザーによりボットがメンションされた場合
