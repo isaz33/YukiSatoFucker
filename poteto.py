@@ -30,6 +30,30 @@ TARGET_USER_ID = 449487835351744515
 TEST_CHANNEL_ID = 1349011383882223667
 
 
+# 文字列の危険度判定
+async def analyze_text(text):
+    
+    """Perspective API"""
+    url = f"https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key={PERSPECTIVE_API_KEY}"
+    data = {
+        "comment": {"text": text},
+        "languages": ["ja"],  
+        "requestedAttributes": {"TOXICITY": {}}
+    }
+    headers = {"Content-Type": "application/json"}
+    
+    response = requests.post(url, data=json.dumps(data), headers=headers)
+    
+    
+    if response.status_code == 200:
+        result = response.json()
+        toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
+        return toxicity_score
+    else:
+        print(f"Perspective API エラー: {response.status_code}, {response.text}")
+        return None
+
+
 # メッセージ受信時に動作する処理
 @bot.event
 async def on_message(message):
@@ -66,34 +90,6 @@ async def on_message(message):
 
     # 動作後、コマンド処理を続ける
     await bot.process_commands(message)
-
-
-
-# 文字列の危険度判定
-async def analyze_text(text):
-    
-    """Perspective API"""
-    url = f"https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key={PERSPECTIVE_API_KEY}"
-    data = {
-        "comment": {"text": text},
-        "languages": ["ja"],  
-        "requestedAttributes": {"TOXICITY": {}}
-    }
-    headers = {"Content-Type": "application/json"}
-    
-    response = requests.post(url, data=json.dumps(data), headers=headers)
-    
-    
-    if response.status_code == 200:
-        result = response.json()
-        toxicity_score = result["attributeScores"]["TOXICITY"]["summaryScore"]["value"]
-        return toxicity_score
-    else:
-        print(f"Perspective API エラー: {response.status_code}, {response.text}")
-        return None
-
-
-
 
 
 
