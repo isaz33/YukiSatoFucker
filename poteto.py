@@ -154,13 +154,6 @@ async def disable(ctx):
         timeout_loop.stop()
         await ctx.send("タイムアウト処理を停止しました。")
 
-@bot.command()
-
-async def enable(ctx):
-    if not timeout_loop.is_running():
-        timeout_loop.start()
-        await ctx.send("タイムアウト処理を開始しました。")
-
 
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
