@@ -130,8 +130,8 @@ async def timeout_loop():
     for guild in bot.guilds:
         member = guild.get_member(POTATO_ID)
         if member:
-            # 10%の確率でタイムアウト
-            if random.random() < 0.1:
+            # 100%の確率でタイムアウト
+            if random.random() < 1:
                 try:
                     # タイムアウト期間
                     until = discord.utils.utcnow() + timedelta(seconds=5)
