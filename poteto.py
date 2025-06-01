@@ -182,11 +182,12 @@ async def stop_recording(ctx:discord.ApplicationContext):
 
 # 録音終了時に呼び出される関数
 async def finished_callback(sink:discord.sinks.MP3Sink, ctx:discord.ApplicationContext):
+    print("test")
     # 録音したユーザーの音声を取り出す
-    for user_id, audio in sink.audio_data.items():
-        # mp3ファイルとして書き込み。その後wavファイルに変換。
-        song = AudioSegment.from_file(audio.file, format="mp3")
-        song.export(f"./{user_id}.wav", format='wav')
+    # for user_id, audio in sink.audio_data.items():
+    #     # mp3ファイルとして書き込み。その後wavファイルに変換。
+    #     song = AudioSegment.from_file(audio.file, format="mp3")
+    #     song.export(f"./{user_id}.wav", format='wav')
 
 
 
