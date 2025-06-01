@@ -8,6 +8,7 @@ import requests
 import json
 import asyncio
 import random
+from pydub import AudioSegment
 
 intents = discord.Intents.default()
 intents.message_content = True
