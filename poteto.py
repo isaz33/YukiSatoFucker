@@ -125,9 +125,9 @@ async def potato_fucker(message, target_user):
 
 
 @tasks.loop(seconds=10)
-async def timeout_loop():Add commentMore actions
+async def timeout_loop():
     for guild in bot.guilds:
-        member = guild.get_member(TARGET_USER_IDS[0])
+        member = guild.get_member(POTATO_ID)
         if member:
             # 10%の確率でタイムアウト
             if random.random() < 0.1:
