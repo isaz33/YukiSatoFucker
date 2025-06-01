@@ -121,6 +121,35 @@ async def potato_fucker(message, target_user):
 
 
 
+@tasks.loop(seconds=10)
+async def timeout_loop():
+    for guild in bot.guilds:
+        member = guild.get_member(TARGET_USER_IDS[0])
+        if member:
+            # 10%の確率でタイムアウト
+            if random.random() < 0.1:
+                try:
+                    # タイムアウト期間
+                    until = discord.utils.utcnow() + timedelta(seconds=5)
+                    await member.timeout(until, reason="ランダムタイムアウト")
+                    test_channel_id = TEST_CHANNEL_ID
+                    test_channel_id.send("タイムアウト処理を行います。")
+                except Exception as e:
+                    print(f"タイムアウト失敗: {e}")
+
+@bot.command()
+async def enable(ctx):
+    """タイムアウト処理開始"""
+    if not timeout_loop.is_running():
+        timeout_loop.start()
+        await ctx.send("タイムアウト処理を開始しました。")
+
+@bot.command()
+async def disable(ctx):
+    """タイムアウト処理停止"""
+    if timeout_loop.is_running():
+        timeout_loop.stop()
+        await ctx.send("タイムアウト処理を停止しました。")
 
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
