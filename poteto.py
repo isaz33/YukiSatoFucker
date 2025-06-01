@@ -124,6 +124,22 @@ async def potato_fucker(message, target_user):
 
 
 
+
+@bot.command()
+async def enable(ctx):
+    """タイムアウト処理開始"""
+    if not timeout_loop.is_running():
+        timeout_loop.start()
+        await ctx.send("タイムアウト処理を開始しました。")
+
+
+@bot.command()
+async def disable(ctx):
+    """タイムアウト処理停止"""
+    if timeout_loop.is_running():
+        timeout_loop.stop()
+        await ctx.send("タイムアウト処理を停止しました。")
+
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
