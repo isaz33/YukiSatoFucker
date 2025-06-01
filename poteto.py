@@ -141,7 +141,6 @@ async def timeout_loop():
                     print(f"タイムアウト失敗: {e}")
 
 @bot.command()
-@commands.has_role("G")
 async def enable(ctx):
     """タイムアウト処理開始"""
     if not timeout_loop.is_running():
@@ -149,7 +148,6 @@ async def enable(ctx):
         await ctx.send("タイムアウト処理を開始しました。")
 
 @bot.command()
-@commands.has_role("G")
 async def disable(ctx):
     """タイムアウト処理停止"""
     if timeout_loop.is_running():
