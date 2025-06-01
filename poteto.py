@@ -23,13 +23,49 @@ CHANNEL_ID = 927549442465349632
 PERSPECTIVE_API_KEY = "AIzaSyD6yd1tmX9S7QtkJTeJyn7rqe1UaiCtno4"
 # 許容できる不適切スコアの閾値
 TOXICITY_THRESHOLD = 0.3
-# 監視対象のユーザーIDリスト
-TARGET_USER_IDS = [449487835351744515]  
+# 監視対象のユーザーID
+TARGET_USER_ID = 449487835351744515
+
+#テスト用チャンネル(テキスト)のID
+TEST_CHANNEL_ID = 1349011383882223667
 
 
+# メッセージ受信時に動作する処理
+@bot.event
+async def on_message(message):
+    
+    # メッセージ送信者がBotだった場合は無視する
+    if message.author.bot:
+        return
 
+    
+    target_user = message.guild.get_member(TARGET_USER_ID)  # 指定されたユーザーを取得(ポテト)
+    mentioned_user = message.mentions  # メンションされたユーザー(1人目)を取得
+    
+    #　リスト入りしているユーザーによりボットがメンションされた場合
+    if message.author.id in TARGET_USER_IDS:
 
+        #危険度を測定
+        toxicity_score = await analyze_text(message.content)
+        # 危険性が規定値以上に認められた場合
+        if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
+            # タイムアウト（mute）処理
+            min = 1  # 1分タイムアウト
+            await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(危険度)")
+            await message.channel.send(f"{target_user} の発言は不適切と判断したため、ファックします。{min}分間ミュートされます。危険度 = {toxicity_score}")
 
+    #　その他ユーザーによりボットがメンションされた場合
+    elif bot.user in message.mentions:
+        # ユーザーが存在する場合
+        if target_user:  
+            #ポテトファッカーを実行
+            await potato_fucker(message,target_user)
+            
+        else:
+            await print("user=none")
+
+    # 動作後、コマンド処理を続ける
+    await bot.process_commands(message)
 
 
 
@@ -58,59 +94,7 @@ async def analyze_text(text):
 
 
 
-# メッセージ受信時に動作する処理
-@bot.event
-async def on_message(message):
-    
-    # メッセージ送信者がBotだった場合は無視する
-    if message.author.bot:
-        return
 
-    
-    target_user = message.guild.get_member(449487835351744515)  # 指定されたユーザーを取得(ポテト)
-    mentioned_user = message.mentions  # メンションされたユーザー(1人目)を取得
-
-    #メンションされたユーザーがリスト入りしている場合
-    # for user in mentioned_user:
-    #     if user.id in TARGET_USER_IDS:
-    #         await message.channel.send("test")
-    #         def check(m):
-    #             return m.author == mentioned_user and m.channel == message.channel
-        
-    #         try:
-    #             # ユーザーからのメッセージを10秒以内に待機
-    #             await bot.wait_for('message', timeout=10, check=check)
-    #         except asyncio.TimeoutError:
-    #             # ユーザーが返答しなかった場合、タイムアウト
-    #             min = 1
-    #             await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(応答なし)")
-    #             await message.channel.send(f"{target_user} が応答の義務を果たさなかったため、ファックします。")
-
-    
-    #　リスト入りしているユーザーによりボットがメンションされた場合
-    if message.author.id in TARGET_USER_IDS:
-
-        #危険度を測定
-        toxicity_score = await analyze_text(message.content)
-        # 危険性が規定値以上に認められた場合
-        if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
-            # タイムアウト（mute）処理
-            min = 1  # 1分タイムアウト
-            await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(危険度)")
-            await message.channel.send(f"{target_user} の発言は不適切と判断したため、ファックします。{min}分間ミュートされます。危険度 = {toxicity_score}")
-
-    #　その他ユーザーによりボットがメンションされた場合
-    elif bot.user in message.mentions:
-        # ユーザーが存在する場合
-        if target_user:  
-            #ポテトファッカーを実行
-            await potato_fucker(message,target_user)
-            
-        else:
-            await print("user=none")
-
-    # 動作後、コマンド処理を続ける
-    await bot.process_commands(message)
 
 
 async def potato_fucker(message, target_user):
@@ -138,6 +122,46 @@ async def potato_fucker(message, target_user):
             #ここで例外が発生した場合はキャッチしない
             await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト(例外)")
             await message.channel.send("Potato was fucked!")
+
+
+@tasks.loop(seconds=10)
+async def timeout_loop():
+    for guild in bot.guilds:
+        member = guild.get_member(TARGET_USER_IDS[0])
+        if member:
+            # 10%の確率でタイムアウト
+            if random.random() < 0.1:
+                try:
+                    # タイムアウト期間
+                    until = discord.utils.utcnow() + timedelta(seconds=5)
+                    await member.timeout(until, reason="ランダムタイムアウト")
+                    test_channel_id = TEST_CHANNEL_ID
+                    test_channel_id.send("タイムアウト処理を行います。")
+                except Exception as e:
+                    print(f"タイムアウト失敗: {e}")
+
+@bot.command()
+@commands.has_role("G")
+async def enable(ctx):
+    """タイムアウト処理開始"""
+    if not timeout_loop.is_running():
+        timeout_loop.start()
+        await ctx.send("タイムアウト処理を開始しました。")
+
+@bot.command()
+@commands.has_role("G")
+async def disable(ctx):
+    """タイムアウト処理停止"""
+    if timeout_loop.is_running():
+        timeout_loop.stop()
+        await ctx.send("タイムアウト処理を停止しました。")
+
+@bot.command()
+
+async def enable(ctx):
+    if not timeout_loop.is_running():
+        timeout_loop.start()
+        await ctx.send("タイムアウト処理を開始しました。")
 
 
 #以下編集しないこと
