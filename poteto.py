@@ -124,6 +124,21 @@ async def potato_fucker(message, target_user):
 
 
 
+@tasks.loop(seconds=10)
+async def timeout_loop():Add commentMore actions
+    for guild in bot.guilds:
+        member = guild.get_member(TARGET_USER_IDS[0])
+        if member:
+            # 10%の確率でタイムアウト
+            if random.random() < 0.1:
+                try:
+                    # タイムアウト期間
+                    until = discord.utils.utcnow() + timedelta(seconds=5)
+                    await member.timeout(until, reason="ランダムタイムアウト")
+                    test_channel_id = TEST_CHANNEL_ID
+                    test_channel_id.send("タイムアウト処理を行います。")
+                except Exception as e:
+                    print(f"タイムアウト失敗: {e}")
 
 @bot.command()
 async def enable(ctx):
