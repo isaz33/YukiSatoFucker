@@ -131,13 +131,13 @@ async def timeout_loop():
         member = guild.get_member(POTATO_ID)
         if member:
             # 100%の確率でタイムアウト
-            if random.random() < 1:
+            if random.random() < 0.5:
                 try:
                     # タイムアウト期間
                     until = discord.utils.utcnow() + timedelta(seconds=5)
-                    await member.timeout(until, reason="ランダムタイムアウト")
                     test_channel_id = TEST_CHANNEL_ID
-                    test_channel_id.send("タイムアウト処理を行います。")
+                    await member.timeout(until, reason="ランダムタイムアウト")
+                    await test_channel_id.send("タイムアウト処理を行います。")
                 except Exception as e:
                     print(f"タイムアウト失敗: {e}")
 
@@ -150,6 +150,7 @@ async def enable(ctx):
 
 
 @bot.command()
+@commands.has_role("管理者") 
 async def disable(ctx):
     """タイムアウト処理停止"""
     if timeout_loop.is_running():
