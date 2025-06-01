@@ -138,7 +138,7 @@ async def timeout_loop():
                     until = discord.utils.utcnow() + timedelta(seconds=5)
                     test_channel_id = TEST_CHANNEL_ID
                     await member.timeout(until, reason="ランダムタイムアウト")
-                    await test_channel_id.send("自走ファックを行います。")
+                    await test_channel_id.send("自走ファックを行います。(10秒毎,1/10)")
                 except Exception as e:
                     print(f"タイムアウト失敗: {e}")
 
