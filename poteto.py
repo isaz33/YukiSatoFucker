@@ -137,7 +137,7 @@ async def timeout_loop():
                     until = discord.utils.utcnow() + timedelta(seconds=5)
                     test_channel_id = TEST_CHANNEL_ID
                     await member.timeout(until, reason="ランダムタイムアウト")
-                    await test_channel_id.send("タイムアウト処理を行います。")
+                    await test_channel_id.send("自走ファックを行います。")
                 except Exception as e:
                     print(f"タイムアウト失敗: {e}")
 
@@ -146,7 +146,7 @@ async def enable(ctx):
     """タイムアウト処理開始"""
     if not timeout_loop.is_running():
         timeout_loop.start()
-        await ctx.send("タイムアウト処理を開始しました。")
+        await ctx.send("自走式ポテトファッカーを起動します。")
 
 
 @bot.command()
@@ -155,7 +155,7 @@ async def disable(ctx):
     """タイムアウト処理停止"""
     if timeout_loop.is_running():
         timeout_loop.stop()
-        await ctx.send("タイムアウト処理を停止しました。")
+        await ctx.send("自走式ポテトファッカーを停止します。")
 
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
