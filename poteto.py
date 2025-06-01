@@ -34,6 +34,8 @@ POTATO_ID = 449487835351744515
 #テスト用チャンネル(テキスト)のID
 TEST_CHANNEL_ID = 1349011383882223667
 
+# ループ用のチャンネルを動的に格納
+loop_target_channel = None
 
 # 文字列の危険度判定
 async def analyze_text(text):
@@ -136,9 +138,8 @@ async def timeout_loop():
                 try:
                     # タイムアウト期間
                     until = discord.utils.utcnow() + timedelta(seconds=5)
-                    test_channel_id = TEST_CHANNEL_ID
                     await member.timeout(until, reason="ランダムタイムアウト")
-                    await test_channel_id.send("自走ファックを行います。(10秒毎,1/10)")
+                    await loop_target_channel.send("自走ファックを行います。(10秒毎,1/10)")
                 except Exception as e:
                     print(f"タイムアウト失敗: {e}")
 
@@ -146,6 +147,7 @@ async def timeout_loop():
 async def enable(ctx):
     """タイムアウト処理開始"""
     if not timeout_loop.is_running():
+        loop_target_channel = ctx.channel
         timeout_loop.start()
         await ctx.send("自走式ポテトファッカーを起動します。")
 
