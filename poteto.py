@@ -81,7 +81,7 @@ async def on_message(message):
         # 危険性が規定値以上に認められた場合
         if toxicity_score is not None and toxicity_score > TOXICITY_THRESHOLD:
             # タイムアウト（mute）処理
-            min = 1  # 1分タイムアウト
+            min = 10  # 10分タイムアウト
             await target_user.timeout(timedelta(minutes=min), reason="ホモのためタイムアウト(危険度)")
             await message.channel.send(f"{target_user} の発言は不適切と判断したため、ファックします。{min}分間ミュートされます。危険度 = {toxicity_score}")
 
