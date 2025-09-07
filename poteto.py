@@ -134,7 +134,7 @@ async def timeout_loop():
         member = guild.get_member(POTATO_ID)
         if member:
             # 100%の確率でタイムアウト
-            if random.random() < 0.1:
+            if random.random() < 0.05:
                 try:
                     # タイムアウト期間
                     until = discord.utils.utcnow() + timedelta(seconds=5)
@@ -196,3 +196,4 @@ async def disable(ctx):
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
+
