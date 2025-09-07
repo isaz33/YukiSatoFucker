@@ -31,7 +31,7 @@ TARGET_USER_IDS = {449487835351744515}
 # ポテトのユーザーID
 POTATO_ID = 449487835351744515
 
-#テスト用チャンネル(テキスト)のID
+# テスト用チャンネル(テキスト)のID
 TEST_CHANNEL_ID = 1349011383882223667
 
 # ループ用のチャンネルを動的に格納
@@ -121,8 +121,8 @@ async def potato_fucker(message, target_user):
                 await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト(デフォルト)")
                 await message.channel.send("Potato was fucked!")
         except:
-            #例外時、再度ポテトファックを試行
-            #ここで例外が発生した場合はキャッチしない
+            # 例外時、再度ポテトファックを試行
+            # ここで例外が発生した場合はキャッチしない
             await target_user.timeout(timedelta(minutes=0.1), reason="ホモのためタイムアウト(例外)")
             await message.channel.send("Potato was fucked!")
 
@@ -196,4 +196,5 @@ async def disable(ctx):
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
+
 
