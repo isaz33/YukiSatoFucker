@@ -153,7 +153,7 @@ async def enable(ctx):
 
 
 @bot.command()
-@commands.has_role("G") 
+@commands.has_role("新しいロール") 
 async def disable(ctx):
     """タイムアウト処理停止"""
     if timeout_loop.is_running():
@@ -196,5 +196,6 @@ async def disable(ctx):
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
+
 
 
