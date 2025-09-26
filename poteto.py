@@ -162,7 +162,7 @@ async def disable(ctx):
 
 
 @bot.command()
-async def enable(ctx):
+async def barony(ctx):
     """タイムアウト処理開始"""
     if random.random() < 0.5:
         await loop_target_channel.send("baronyを必ずプレイしてください。")
@@ -205,6 +205,7 @@ async def enable(ctx):
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
+
 
 
 
