@@ -163,11 +163,10 @@ async def disable(ctx):
 
 @bot.command()
 async def barony(ctx):
-    """タイムアウト処理開始"""
     if random.random() < 0.5:
-        await loop_target_channel.send("baronyを必ずプレイしてください。")
+        await ctx.send("baronyを必ずプレイしてください。")
     else:
-        await loop_target_channel.send("今日はbaronyをやめておきましょう。")
+        await ctx.send("baronyを必ずプレイしてください。")
 
 
 # @bot.command()
@@ -205,6 +204,7 @@ async def barony(ctx):
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
+
 
 
 
