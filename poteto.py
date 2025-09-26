@@ -164,7 +164,7 @@ async def disable(ctx):
 @bot.command()
 async def barony(ctx):
     if random.random() < 0.5:
-        await ctx.send("baronyを必ずプレイしてください。")
+        await ctx.send("あなたはbaronyを必ずプレイしてください。")
     else:
         await ctx.send("今日はbaronyをやめておきましょう。")
 
@@ -204,6 +204,7 @@ async def barony(ctx):
 #以下編集しないこと
 TOKEN = os.getenv("DISCORD_TOKEN")
 bot.run(TOKEN)
+
 
 
 
